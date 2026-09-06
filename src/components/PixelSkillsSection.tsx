@@ -141,22 +141,18 @@ export const PixelSkillsSection: React.FC<PixelSkillsSectionProps> = ({
   isMuted,
   onOpenContact
 }) => {
-  const [selectedSkillId, setSelectedSkillId] = useState<string>('copywriting');
+  const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null);
 
   const isDay = mode === 'day';
-  const activeSkill = SKILLS_DATA.find((s) => s.id === selectedSkillId) || SKILLS_DATA[0];
+  const activeSkill = SKILLS_DATA.find((s) => s.id === selectedSkillId) || null;
 
   const handleSelectSkill = (id: string) => {
-    setSelectedSkillId(id);
+    setSelectedSkillId((prev) => (prev === id ? null : id));
     playPixelBlip(isMuted, 'select');
   };
 
   const handleToggleMobileSkill = (id: string) => {
-    if (selectedSkillId === id) {
-      setSelectedSkillId('');
-    } else {
-      setSelectedSkillId(id);
-    }
+    setSelectedSkillId((prev) => (prev === id ? null : id));
     playPixelBlip(isMuted, 'select');
   };
 
@@ -382,7 +378,7 @@ export const PixelSkillsSection: React.FC<PixelSkillsSectionProps> = ({
               {/* Left Column: Skill Buttons */}
               <div className="lg:col-span-5 flex flex-col space-y-2">
                 {SKILLS_DATA.map((skill) => {
-                  const isSelected = skill.id === activeSkill.id;
+                  const isSelected = skill.id === selectedSkillId;
                   const IconComp = skill.icon;
                   return (
                     <button
@@ -450,102 +446,139 @@ export const PixelSkillsSection: React.FC<PixelSkillsSectionProps> = ({
               </div>
 
               {/* Right Column: Active Skill Page Inspector (Sticky on Desktop) */}
-              <div 
-                className={`lg:col-span-7 border-3 border-black p-5 sm:p-7 relative transition-all duration-300 lg:sticky lg:top-24 ${
-                  isDay 
-                    ? 'bg-[#fffbf0] shadow-[6px_6px_0_#000]' 
-                    : 'bg-[#1b1130] shadow-[6px_6px_0_#000]'
-                }`}
-              >
-                {/* Skill Card Header */}
-                <div className="flex items-center justify-between gap-2 pb-4 border-b-2 border-black">
-                  <div className="flex items-center gap-3">
-                    <div 
-                      className="w-11 h-11 border-2 border-black flex items-center justify-center shadow-[2px_2px_0_#000]"
-                      style={{ backgroundColor: activeSkill.accentColor }}
-                    >
-                      {React.createElement(activeSkill.icon, { size: 22, className: 'text-white drop-shadow-[1px_1px_0_#000]' })}
-                    </div>
-                    <div>
-                      <h3 className={`font-['Press_Start_2P'] text-sm sm:text-base leading-snug ${isDay ? 'text-[#0f172a]' : 'text-[#fffaf0]'}`}>
-                        {activeSkill.title}
-                      </h3>
-                      <span className="font-['Silkscreen'] text-[10px] text-[#ea580c] font-bold uppercase">
-                        CATEGORY: {activeSkill.category}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Exact Copy Text from User */}
-                <div className="mt-5">
-                  <div className="font-['Silkscreen'] text-[11px] text-[#64748b] font-bold uppercase mb-2">
-                    // DELIVERABLES &amp; FOCUS
-                  </div>
-                  <div 
-                    className={`p-4 border-2 border-black font-['Pixelify_Sans'] text-lg sm:text-xl font-normal leading-relaxed shadow-[3px_3px_0_#000] ${
-                      isDay ? 'bg-white text-[#1e293b]' : 'bg-[#271945] text-[#fef08a]'
-                    }`}
-                  >
-                    {activeSkill.copy}
-                  </div>
-                </div>
-
-                {/* Interactive Badge Cloud */}
-                <div className="mt-5">
-                  <div className="font-['Silkscreen'] text-[11px] text-[#64748b] font-bold uppercase mb-2.5">
-                    // CAPABILITY TAGS
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {activeSkill.badges.map((badge, idx) => (
-                      <span
-                        key={idx}
-                        className={`px-3 py-1 border-2 border-black font-['Pixelify_Sans'] text-sm sm:text-base font-semibold shadow-[2px_2px_0_#000] flex items-center gap-1.5 transition-all ${
-                          isDay
-                            ? 'bg-[#fed7aa] text-[#431407]'
-                            : 'bg-[#3b1c68] text-[#fed7aa]'
-                        }`}
+              {activeSkill ? (
+                <div 
+                  className={`lg:col-span-7 border-3 border-black p-5 sm:p-7 relative transition-all duration-300 lg:sticky lg:top-24 ${
+                    isDay 
+                      ? 'bg-[#fffbf0] shadow-[6px_6px_0_#000]' 
+                      : 'bg-[#1b1130] shadow-[6px_6px_0_#000]'
+                  }`}
+                >
+                  {/* Skill Card Header */}
+                  <div className="flex items-center justify-between gap-2 pb-4 border-b-2 border-black">
+                    <div className="flex items-center gap-3">
+                      <div 
+                        className="w-11 h-11 border-2 border-black flex items-center justify-center shadow-[2px_2px_0_#000]"
+                        style={{ backgroundColor: activeSkill.accentColor }}
                       >
-                        <CheckCircle2 size={13} className="text-[#ea580c] shrink-0" />
-                        <span>{badge}</span>
-                      </span>
-                    ))}
+                        {React.createElement(activeSkill.icon, { size: 22, className: 'text-white drop-shadow-[1px_1px_0_#000]' })}
+                      </div>
+                      <div>
+                        <h3 className={`font-['Press_Start_2P'] text-sm sm:text-base leading-snug ${isDay ? 'text-[#0f172a]' : 'text-[#fffaf0]'}`}>
+                          {activeSkill.title}
+                        </h3>
+                        <span className="font-['Silkscreen'] text-[10px] text-[#ea580c] font-bold uppercase">
+                          CATEGORY: {activeSkill.category}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Exact Copy Text from User */}
+                  <div className="mt-5">
+                    <div className="font-['Silkscreen'] text-[11px] text-[#64748b] font-bold uppercase mb-2">
+                      // DELIVERABLES &amp; FOCUS
+                    </div>
+                    <div 
+                      className={`p-4 border-2 border-black font-['Pixelify_Sans'] text-lg sm:text-xl font-normal leading-relaxed shadow-[3px_3px_0_#000] ${
+                        isDay ? 'bg-white text-[#1e293b]' : 'bg-[#271945] text-[#fef08a]'
+                      }`}
+                    >
+                      {activeSkill.copy}
+                    </div>
+                  </div>
+
+                  {/* Interactive Badge Cloud */}
+                  <div className="mt-5">
+                    <div className="font-['Silkscreen'] text-[11px] text-[#64748b] font-bold uppercase mb-2.5">
+                      // CAPABILITY TAGS
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {activeSkill.badges.map((badge, idx) => (
+                        <span
+                          key={idx}
+                          className={`px-3 py-1 border-2 border-black font-['Pixelify_Sans'] text-sm sm:text-base font-semibold shadow-[2px_2px_0_#000] flex items-center gap-1.5 transition-all ${
+                            isDay
+                              ? 'bg-[#fed7aa] text-[#431407]'
+                              : 'bg-[#3b1c68] text-[#fed7aa]'
+                          }`}
+                        >
+                          <CheckCircle2 size={13} className="text-[#ea580c] shrink-0" />
+                          <span>{badge}</span>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Flavor Quote / Strategic Edge */}
+                  {activeSkill.flavorQuote && (
+                    <div 
+                      className={`mt-6 p-3.5 border-l-4 border-black font-['Pixelify_Sans'] text-base italic leading-snug ${
+                        isDay ? 'bg-[#f8fafc] text-[#475569]' : 'bg-[#140b24] text-[#cbd5e1]'
+                      }`}
+                    >
+                      "{activeSkill.flavorQuote}"
+                    </div>
+                  )}
+
+                  {/* Quick Action in Card */}
+                  <div className="mt-6 pt-4 border-t-2 border-black flex items-center justify-between">
+                    <span className="font-['Silkscreen'] text-[10px] text-[#64748b]">
+                      DISCUSS THIS SERVICE
+                    </span>
+                    <a
+                      href="https://www.linkedin.com/in/sushmita-pillai/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => playPixelBlip(isMuted, 'powerup')}
+                      className={`px-4 py-2 font-['Press_Start_2P'] text-[10px] font-bold border-2 border-black shadow-[3px_3px_0_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none flex items-center gap-2 cursor-pointer ${
+                        isDay
+                          ? 'bg-[#ea580c] hover:bg-[#c2410c] text-white'
+                          : 'bg-[#fec832] hover:bg-[#ffd754] text-black'
+                      }`}
+                    >
+                      <span>TALK TO SUSHMITA</span>
+                      <ArrowRight size={12} />
+                    </a>
+                  </div>
+
+                </div>
+              ) : (
+                <div 
+                  className={`lg:col-span-7 border-3 border-black p-8 sm:p-12 relative transition-all duration-300 lg:sticky lg:top-24 flex flex-col items-center justify-center text-center min-h-[380px] ${
+                    isDay 
+                      ? 'bg-[#fffbf0] shadow-[6px_6px_0_#000]' 
+                      : 'bg-[#1b1130] shadow-[6px_6px_0_#000]'
+                  }`}
+                >
+                  <div className={`w-14 h-14 border-3 border-black flex items-center justify-center shadow-[3px_3px_0_#000] mb-4 ${
+                    isDay ? 'bg-[#fed7aa] text-[#ea580c]' : 'bg-[#3b1c68] text-[#fde047]'
+                  }`}>
+                    <Sparkles size={28} />
+                  </div>
+
+                  <div className="font-['Silkscreen'] text-[11px] text-[#64748b] font-bold uppercase mb-2">
+                    // SKILLBOOK STANDBY
+                  </div>
+
+                  <h3 className={`font-['Press_Start_2P'] text-sm sm:text-base leading-relaxed mb-3 ${
+                    isDay ? 'text-[#0f172a]' : 'text-[#fffaf0]'
+                  }`}>
+                    SELECT A SKILL
+                  </h3>
+
+                  <p className={`font-['Pixelify_Sans'] text-base max-w-sm leading-normal ${
+                    isDay ? 'text-[#475569]' : 'text-[#cbd5e1]'
+                  }`}>
+                    Click any capability on the left to inspect its deliverables, capability tags, and strategic focus.
+                  </p>
+
+                  <div className="mt-6 flex items-center gap-2 font-['Press_Start_2P'] text-[9px] text-[#ea580c] animate-pulse">
+                    <span>◄</span>
+                    <span>CLICK ANY SKILL TO OPEN</span>
                   </div>
                 </div>
-
-                {/* Flavor Quote / Strategic Edge */}
-                {activeSkill.flavorQuote && (
-                  <div 
-                    className={`mt-6 p-3.5 border-l-4 border-black font-['Pixelify_Sans'] text-base italic leading-snug ${
-                      isDay ? 'bg-[#f8fafc] text-[#475569]' : 'bg-[#140b24] text-[#cbd5e1]'
-                    }`}
-                  >
-                    "{activeSkill.flavorQuote}"
-                  </div>
-                )}
-
-                {/* Quick Action in Card */}
-                <div className="mt-6 pt-4 border-t-2 border-black flex items-center justify-between">
-                  <span className="font-['Silkscreen'] text-[10px] text-[#64748b]">
-                    DISCUSS THIS SERVICE
-                  </span>
-                  <a
-                    href="https://www.linkedin.com/in/sushmita-pillai/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => playPixelBlip(isMuted, 'powerup')}
-                    className={`px-4 py-2 font-['Press_Start_2P'] text-[10px] font-bold border-2 border-black shadow-[3px_3px_0_#000] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none flex items-center gap-2 cursor-pointer ${
-                      isDay
-                        ? 'bg-[#ea580c] hover:bg-[#c2410c] text-white'
-                        : 'bg-[#fec832] hover:bg-[#ffd754] text-black'
-                    }`}
-                  >
-                    <span>TALK TO SUSHMITA</span>
-                    <ArrowRight size={12} />
-                  </a>
-                </div>
-
-              </div>
+              )}
 
             </div>
           </div>
