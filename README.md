@@ -1,6 +1,8 @@
-# Sushmita | 8-Bit Copy & Design Portfolio
+# Sushmita
 
-A cozy, retro 8-bit interactive portfolio and skill omnibus for **Sushmita**, copywriter and brand strategist. Built with nostalgic pixel art aesthetics, procedural chiptune audio, interactive cutscenes, and responsive day/night world atmospheres.
+**Sushmita is a copywriter and brand strategist who helps brands stop sounding like brands and strategies stop sounding like decks.** Specializing in ad copy, brand messaging, social media strategy, and creative direction.
+
+This project is the official portfolio and skill omnibus for Sushmita.
 
 ---
 

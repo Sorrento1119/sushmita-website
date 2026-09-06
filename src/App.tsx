@@ -8,7 +8,7 @@ import { PixelContactSection } from './components/PixelContactSection';
 import { PixelGround } from './components/PixelGround';
 
 export default function App() {
-  const [mode, setMode] = useState<'day' | 'night'>('day');
+  const [mode, setMode] = useState<'day' | 'night'>('night');
   const [isMuted, setIsMuted] = useState(false);
 
   const handleToggleMode = () => {

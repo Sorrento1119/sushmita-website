@@ -31,7 +31,8 @@ export const PixelHero: React.FC<PixelHeroProps> = ({ mode, isMuted }) => {
             : '2px 2px 0 #4a1d75, 4px 4px 0 #331254, 6px 6px 0 #210a38, 8px 8px 0 #0d0219'
         }}
       >
-        Hi, I’m{' '}
+        <span>Hi,</span>
+        <span className="inline-block ml-1 sm:ml-1.5">I'm</span>{' '}
         <span 
           className={isDay ? 'text-[#ffd23f]' : 'text-[#ffdf78]'}
           style={{
