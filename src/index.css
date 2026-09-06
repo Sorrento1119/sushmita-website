@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme {
+  --font-press: 'Press Start 2P', monospace;
+  --font-pixel: 'Pixelify Sans', sans-serif;
+  --font-silk: 'Silkscreen', monospace;
+}
+
+/* Pixel rendering utilities */
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Pixel Box Shadows and Borders */
+.pixel-border-sm {
+  box-shadow: 
+    0 -2px 0 0 #000,
+    0 2px 0 0 #000,
+    -2px 0 0 0 #000,
+    2px 0 0 0 #000;
+}
+
+.pixel-border-md {
+  box-shadow: 
+    0 -3px 0 0 #181028,
+    0 3px 0 0 #181028,
+    -3px 0 0 0 #181028,
+    3px 0 0 0 #181028;
+}
+
+.pixel-border-yellow {
+  box-shadow: 
+    0 -3px 0 0 #000,
+    0 3px 0 0 #000,
+    -3px 0 0 0 #000,
+    3px 0 0 0 #000,
+    4px 4px 0 0 #000;
+}
+
+.pixel-shadow {
+  box-shadow: 4px 4px 0 0 #120b22;
+}
+
+.pixel-shadow-lg {
+  box-shadow: 6px 6px 0 0 #120b22;
+}
+
+.pixel-btn-shadow {
+  box-shadow: 3px 3px 0 0 #000;
+}
+
+.pixel-btn-shadow:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 0 #000;
+}
+
+/* 3D Extruded Pixel Text Shadow inspired by Launch Week */
+.pixel-3d-text {
+  text-shadow: 
+    2px 2px 0 #3a1c62,
+    3px 3px 0 #3a1c62,
+    4px 4px 0 #281146,
+    5px 5px 0 #281146,
+    6px 6px 0 #18082e,
+    7px 7px 0 #18082e,
+    8px 8px 0 #0d0319;
+}
+
+.pixel-3d-text-subtle {
+  text-shadow: 
+    2px 2px 0 #291245,
+    4px 4px 0 #140726;
+}
+
+/* Dither pattern background overlay */
+.pixel-dither-bg {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 0);
+  background-size: 4px 4px;
+}
+
+/* Animated scanline effect */
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+.scanline-overlay {
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(0, 0, 0, 0.25) 51%
+  );
+  background-size: 100% 4px;
+}

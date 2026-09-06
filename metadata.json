@@ -1,0 +1,6 @@
+{
+  "name": "Sushmita | 8-Bit Copy & Design",
+  "description": "A cozy retro 8-bit portfolio and skill omnibus for Sushmita, featuring nostalgic pixel aesthetics, interactive skillbook, and day/night modes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
